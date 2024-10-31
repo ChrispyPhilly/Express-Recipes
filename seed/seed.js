@@ -12,11 +12,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 const seedData = async () => {
     await Cuisine.deleteMany();
     await Recipe.deleteMany();
+    await Direction.deleteMany();
 
     const italian = await Cuisine.create({ name: 'Italian', region: 'Italy', isVegan: false });
     const indian = await Cuisine.create({ name: 'Indian', region: 'India', isVegan: true, isGlutenFree: true });
+    const mexican = await Cuisine.create({ name: 'Mexican', region: 'Mexico', isVegan: false });
 
-    await Recipe.create({
+    const pasta = await Recipe.create({
         name: 'Pasta',
         cuisine: italian._id,
         ingredients: [
@@ -28,7 +30,7 @@ const seedData = async () => {
         ovenTemperature: 180
     });
 
-    await Recipe.create({
+    const curry = await Recipe.create({
         name: 'Curry',
         cuisine: indian._id,
         ingredients: [
@@ -40,8 +42,28 @@ const seedData = async () => {
         ovenTemperature: 200
     });
 
+    const tacos = await Recipe.create({
+        name: 'Tacos',
+        cuisine: mexican._id,
+        ingredients: [
+            { name: 'Tortillas', amount: 4, unit: 'pieces' },
+            { name: 'Ground Beef', amount: 300, unit: 'g' },
+            { name: 'Cheese', amount: 100, unit: 'g' }
+        ],
+        instructions: [{ step: 'Cook ground beef and assemble tacos.' }],
+        ovenTemperature: 0 
+    });
+
+    // Directions for Pasta
+    await Direction.create({
+        recipe: pasta._id,
+        step: 'Boil water and add pasta.'
+    });
+    await Direction.create({
+        recipe: pasta._id,
+        step: 'In a pan, heat olive oil and sauté garlic.'
+    });
+
     console.log('Data seeded successfully');
     mongoose.connection.close();
 };
-
-seedData();

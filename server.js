@@ -18,6 +18,10 @@ app.get('/api/recipes', recipeController.getRecipes);
 app.put('/api/recipes/:id', recipeController.updateRecipe);
 app.delete('/api/recipes/:id', recipeController.deleteRecipe);
 
+app.post('/api/directions', recipeController.createDirection);
+app.get('/api/directions/:recipeId', recipeController.getDirections);
+app.put('/api/directions/:id', recipeController.updateDirection);
+app.delete('/api/directions/:id', recipeController.deleteDirection);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

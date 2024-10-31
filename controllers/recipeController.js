@@ -89,3 +89,52 @@ exports.getDirections = async (req, res) => {
 };
 
 //End of CRUD
+
+//able to fetch recipe by various different ways
+exports.getRecipeById = async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id).populate('cuisine');
+        if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+        }
+        res.json(recipe);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Fetch recipes by cuisine
+exports.getRecipesByCuisine = async (req, res) => {
+    try {
+        const recipes = await Recipe.find({ cuisine: req.params.cuisineId }).populate('cuisine');
+        res.json(recipes);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Update direction
+exports.updateDirection = async (req, res) => {
+    try {
+        const direction = await Direction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!direction) {
+            return res.status(404).json({ message: 'Direction not found' });
+        }
+        res.json(direction);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Delete direction
+exports.deleteDirection = async (req, res) => {
+    try {
+        const direction = await Direction.findByIdAndDelete(req.params.id);
+        if (!direction) {
+            return res.status(404).json({ message: 'Direction not found' });
+        }
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

@@ -9,7 +9,7 @@ mongoose
         console.error('Connection error', e.message)
     })
 
-
+//wrong pathway im assuming. Dont fully understand the mongodb connections
 
 const db = mongoose.connection
 

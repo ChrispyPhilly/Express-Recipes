@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db'); //kept messing up with the mongo connection
+//at one point it worked and I tried a few different methods on line 2
 const bodyParser = require('body-parser');
 const recipeController = require('./controllers/recipeController');
 
